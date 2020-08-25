@@ -29,7 +29,7 @@ public class Order {
     /**
      * Тест для метода order
      */
-    private static void testFind() {
+    private static void testOrder() {
         String test = "is2 Thi1s T4est 3a";
 
         System.out.println("Input: " + test);
@@ -37,6 +37,6 @@ public class Order {
     }
 
     public static void main(String[] args) {
-        testFind();
+        testOrder();
     }
 }
