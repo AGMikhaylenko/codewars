@@ -13,7 +13,6 @@ public class Sum {
         if (a == b) {
             return a;
         }
-        boolean aIsBig = false;
         int res = 0;
 
         for (int i = a; i != b; ) {
