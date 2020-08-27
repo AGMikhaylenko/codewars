@@ -46,6 +46,5 @@ public class SquareDigit {
         }finally {
             sc.close();
         }
-
     }
 }
