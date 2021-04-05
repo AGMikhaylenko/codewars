@@ -1,49 +1,59 @@
 package kyu5;
 
+import java.util.ArrayList;
+import java.util.Comparator;
+
+
+/**
+ * https://www.codewars.com/kata/55c6126177c9441a570000cc/train/java
+ */
 public class WeightSort {
+    public static void main(String[] args) {
+        String testOne = "59544965313";
+        String testTwo = "56 65 74 100 99 68 86 180 90";
+        System.out.println(orderWeight(testOne));
+        System.out.println(orderWeight(testTwo));
+    }
 
     public static String orderWeight(String strng) {
-        String[] words = strng.trim().split(" ");
-        int[] weight = new int[words.length];
+        ArrayList<Weight> list = new ArrayList<>();
+        String[] values = strng.trim().split(" ");
+        for (String s : values) {
+            s = s.trim();
+            if (s.length() != 0)
+                list.add(new Weight(Long.valueOf(s)));
+        }
 
-        for (int i = 0; i < words.length; i++) {
-            weight[i] = 0;
-            char[] chars = words[i].trim().toCharArray();
-            for (char c : chars) {
-                weight[i] += Integer.parseInt(String.valueOf(c));
+        list.sort(new Comparator<Weight>() {
+            @Override
+            public int compare(Weight o1, Weight o2) {
+                if (o1.weight == o2.weight)
+                    return String.valueOf(o1.value).compareTo(String.valueOf(o2.value));
+                else
+                    return o1.weight - o2.weight;
             }
-        }
+        });
 
-        for (int i = 0; i < words.length; i++) {
-            for (int j = weight.length - 1; j > i; j--)
-                if (weight[j] < weight[j-1]){
-                    int buf = weight[j-1];
-                    weight[j-1] = weight[j];
-                    weight[j] = buf;
-                    String b = words[j-1];
-                    words[j-1] = words[j];
-                    words[j] = b;
-                }
-        }
+        String result = "";
+        for (int i = 0; i < list.size(); i++)
+            result += list.get(i).value + " ";
 
-        StringBuilder sb = new StringBuilder();
-        for(String s:words){
-            sb.append(s + " ");
-        }
-        return sb.toString().trim();
+        return result.trim();
     }
 
-    /**
-     * Тест для метода orderWeight
-     */
-    private static void testOrder() {
-        String test = "56 65 74 100 99 68 86 180 90";
+    private static class Weight {
+        private long value;
+        private int weight;
 
-        System.out.println("Input: " + test);
-        System.out.println("Result: " + orderWeight(test));
-    }
+        public Weight(long value) {
+            this.value = value;
+            getWeight();
+        }
 
-    public static void main(String[] args) {
-        testOrder();
+        private void getWeight() {
+            char[] digits = String.valueOf(value).toCharArray();
+            for (int i = 0; i < digits.length; i++)
+                weight += Integer.valueOf(String.valueOf(digits[i]));
+        }
     }
 }
